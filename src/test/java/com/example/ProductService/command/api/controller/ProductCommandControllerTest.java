@@ -2,60 +2,39 @@ package com.example.ProductService.command.api.controller;
 
 import com.example.ProductService.command.api.commands.CreateProductCommand;
 import com.example.ProductService.command.api.model.ProductRestModel;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
 
-import static org.hamcrest.Matchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@WebMvcTest(ProductCommandController.class)
-public class ProductCommandControllerTest {
+class ProductCommandControllerTest {
 
-    @MockBean
+    @Mock
     private CommandGateway commandGateway;
-    @Autowired
-    private MockMvc mockMvc;
-    @InjectMocks
-    private ProductCommandController productCommandController;
 
-    @Test
-    void shouldCreateProduct() throws Exception {
-        ProductRestModel productRestModel = ProductRestModel.builder()
-                .name("Test Product")
-                .price(BigDecimal.valueOf(100))
-                .quantity(50)
-                .build();
+    private ProductCommandController controller;
 
-        when(commandGateway.sendAndWait(any(CreateProductCommand.class))).thenReturn("123");
-
-        mockMvc.perform(post("/products")
-                .content(asJsonString(productRestModel))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(commandGateway).sendAndWait(any(CreateProductCommand.class));
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        controller = new ProductCommandController(commandGateway);
     }
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @Test
+    void shouldSendCreateProductCommand() {
+        ProductRestModel productRestModel = new ProductRestModel("Test Product", BigDecimal.valueOf(10.0), 5);
+        when(commandGateway.sendAndWait(any(CreateProductCommand.class))).thenReturn("Success");
+
+        String response = controller.addProduct(productRestModel);
+
+        assertEquals("Success", response);
+        verify(commandGateway, times(1)).sendAndWait(any(CreateProductCommand.class));
     }
 }

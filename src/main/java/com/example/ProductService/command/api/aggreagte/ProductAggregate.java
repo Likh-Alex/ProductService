@@ -2,6 +2,7 @@ package com.example.ProductService.command.api.aggreagte;
 
 import com.example.ProductService.command.api.commands.CreateProductCommand;
 import com.example.ProductService.command.api.events.ProductCreatedEvent;
+import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import java.math.BigDecimal;
 
 @Aggregate
+@Data
 public class ProductAggregate {
 
     @AggregateIdentifier

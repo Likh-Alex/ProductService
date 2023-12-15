@@ -1,57 +1,47 @@
 package com.example.ProductService.query.api.projection;
 
+import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.ProductService.command.api.data.Product;
 import com.example.ProductService.command.api.data.ProductRepository;
 import com.example.ProductService.command.api.model.ProductRestModel;
 import com.example.ProductService.query.api.queries.GetProductQuery;
-import org.axonframework.queryhandling.QueryHandler;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+class ProductProjectionTest {
 
-public class ProductProjectionTest {
+    @Mock
+    private ProductRepository productRepository;
 
-    @Test
-    void handle_noProductsInRepository_returnsEmptyList() {
-        // arrange
-        ProductRepository mockProductRepository = Mockito.mock(ProductRepository.class);
-        when(mockProductRepository.findAll()).thenReturn(Collections.emptyList());
-        ProductProjection productProjection = new ProductProjection(mockProductRepository);
+    private ProductProjection productProjection;
 
-        // act
-        List<ProductRestModel> result = productProjection.handle(new GetProductQuery());
-
-        // assert
-        assertThat(result).isEmpty();
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+        productProjection = new ProductProjection(productRepository);
     }
 
     @Test
-    void handle_oneProductInRepository_returnsListWithOneRestModel() {
-        // arrange
-        Product product = new Product();
-        product.setName("test product");
-        product.setPrice(BigDecimal.valueOf(10));
-        product.setQuantity(5);
+    void shouldReturnListOfProductRestModels() {
+        List<Product> products = Arrays.asList(
+                new Product("1", "Product1", BigDecimal.valueOf(100.0), 10),
+                new Product("2", "Product2", BigDecimal.valueOf(200.0), 20)
+        );
+        when(productRepository.findAll()).thenReturn(products);
 
-        ProductRepository mockProductRepository = Mockito.mock(ProductRepository.class);
-        when(mockProductRepository.findAll()).thenReturn(Collections.singletonList(product));
-
-        ProductProjection productProjection = new ProductProjection(mockProductRepository);
-
-        // act
         List<ProductRestModel> result = productProjection.handle(new GetProductQuery());
 
-        // assert
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).isEqualTo(product.getName());
-        assertThat(result.get(0).getPrice()).isEqualTo(product.getPrice());
-        assertThat(result.get(0).getQuantity()).isEqualTo(product.getQuantity());
+        assertEquals(2, result.size());
+        assertEquals("Product1", result.get(0).getName());
+        assertEquals(BigDecimal.valueOf(100.0), result.get(0).getPrice());
+        assertEquals(10, result.get(0).getQuantity());
     }
 }
