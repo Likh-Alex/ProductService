@@ -73,9 +73,9 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-
+A
       - name: Terraform Plan
-        run:  terraform plan -input=false -var-file="variables.tf"
+        run:  terraform plan -input=false
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
