@@ -47,7 +47,7 @@ build/
 MANIFEST.MF
 _site/
 activemq-data
-bin
+    bin
 build
 !/**/src/**/bin
 !/**/src/**/build
