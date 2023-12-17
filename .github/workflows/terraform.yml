@@ -2,7 +2,7 @@ name: 'Terraform apply'
 
 on:
   workflow_run:
-    workflows: ["Build Java with Maven _removed"]
+    workflows: ["Build Java with Maven"]
     types: 
       - completed
 

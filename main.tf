@@ -1,3 +1,11 @@
+terraform {
+  backend "s3_terraform_state" {
+    bucket = "product-service-terraform-state"
+    key    = "terraform/state/terraform.tfstate"
+    region = "eu-central-1"
+  }
+}
+
 provider "aws" {
   region = "eu-central-1"
 }
