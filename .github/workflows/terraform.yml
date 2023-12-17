@@ -73,7 +73,7 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-A
+
       - name: Terraform Plan
         run:  terraform plan -input=false
 
