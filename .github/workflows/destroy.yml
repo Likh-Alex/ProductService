@@ -1,20 +1,13 @@
-name: 'Terraform apply'
+name: Destroy Infrastructure
 
 on:
-  workflow_run:
-    workflows: ["Build Java with Maven"]
-    types: 
-      - completed
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out repository
+      - name: Check out code
         uses: actions/checkout@v2
 
       - name: Configure AWS Credentials
@@ -27,11 +20,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Terraform Init
+      - name: Initialize Terraform
         run: terraform init
 
-      - name: Terraform Plan
-        run:  terraform plan -input=false
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
