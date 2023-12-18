@@ -1,34 +1,35 @@
+---
 name: Build and Push Docker Image to ECR
-
 on:
   workflow_run:
-    workflows: [ "Build Java with Maven" ]
+    workflows:
+      - Build Java with Maven
     types:
       - completed
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Check out code
-    - name: setup Java
-      uses: actions/setup-java@v3
-      with:
-          distribution: 'temurin'
-    - name: Build with Maven
-      run: mvn clean install -DskipTests
-    - name: Retrieve AWS ECR login password
-      run: aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 154479180857.dkr.ecr.eu-central-1.amazonaws.com
-    - name: Build Docker image
-      run: docker build -t product_service_repo .
-    - name: Tag Docker image
-      run: docker tag product_service_repo:latest 154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
-    - name: Push Docker image
-      run: docker push 154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
-
+      - uses: actions/checkout@v3
+      - name: Check out code
+      - name: setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+      - name: Retrieve AWS ECR login password
+        run: aws ecr get-login-password --region eu-central-1 | docker login --username
+          AWS --password-stdin 154479180857.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Build Docker image
+        run: docker build -t product_service_repo .
+      - name: Tag Docker image
+        run: docker tag product_service_repo:latest
+          154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
+      - name: Push Docker image
+        run: docker push
+          154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
   deploy:
     needs: build
-    runs-on: [ aws-ec2 ]
+    runs-on:
+      - [aws-ec2]
