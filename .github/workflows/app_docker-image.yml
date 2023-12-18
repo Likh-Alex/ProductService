@@ -1,7 +1,7 @@
 name: Build and Push Docker Image to ECR
 on:
   workflow_run:
-    workflows: [ "Build Java with Maven" ]
+    workflows: [ "Build Java with Maven _removed" ]
     types:
       - completed
 jobs:
