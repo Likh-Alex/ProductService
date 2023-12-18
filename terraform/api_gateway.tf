@@ -26,17 +26,19 @@ resource "aws_api_gateway_method" "products_post" {
 resource "aws_api_gateway_integration" "products_get_integration" {
   rest_api_id = aws_api_gateway_rest_api.my_api.id
   resource_id = aws_api_gateway_resource.products_resource.id
-  http_method = aws_api_gateway_method.products_get.http_method
+  http_method = "GET"  # Directly specify the method
   type        = "HTTP"
   uri         = "http://${aws_instance.product_service.public_ip}/products"
+  depends_on  = [aws_api_gateway_method.products_get]
 }
 
 resource "aws_api_gateway_integration" "products_post_integration" {
   rest_api_id = aws_api_gateway_rest_api.my_api.id
   resource_id = aws_api_gateway_resource.products_resource.id
-  http_method = aws_api_gateway_method.products_post.http_method
+  http_method = "POST"  # Directly specify the method
   type        = "HTTP"
   uri         = "http://${aws_instance.product_service.public_ip}/products"
+  depends_on  = [aws_api_gateway_method.products_post]
 }
 
 resource "aws_api_gateway_deployment" "api_deployment" {
