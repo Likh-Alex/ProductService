@@ -1,4 +1,4 @@
-name: Build Java with Maven
+name: Build Java with Maven and Upload Artifact
 
 on:
   push:
