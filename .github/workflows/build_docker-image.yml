@@ -4,6 +4,7 @@ on:
     workflows: [ "Build Java with Maven" ]
     types:
       - completed
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest

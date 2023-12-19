@@ -5,6 +5,7 @@ on:
     workflows: ["Build and Push Docker Image to ECR"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: read
