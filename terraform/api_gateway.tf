@@ -46,7 +46,7 @@ resource "aws_api_gateway_integration" "products_get_integration" {
 resource "aws_api_gateway_deployment" "api_deployment" {
   rest_api_id = aws_api_gateway_rest_api.product_service_api.id
   stage_name  = "prod"
-  depends_on  = [
+  depends_on = [
     aws_api_gateway_integration.products_get_integration,
     aws_api_gateway_method.products_get,
     aws_api_gateway_integration.products_post_integration,
