@@ -11,8 +11,8 @@ resource "aws_instance" "product_service" {
 
   user_data = <<-EOF
     #!/bin/bash
-    apt update -y
-    apt install -y docker.io
+    sudo yum update -y
+    sudo yum install -y docker
     systemctl start docker
     systemctl enable docker
 
