@@ -20,7 +20,7 @@ data "aws_ami" "amazon_linux_2" {
 }
 
 # Template for all instances that will be launched in the ECS cluster
-resource "aws_launch_template" "ecs_cluster_launc_template" {
+resource "aws_launch_template" "ecs_cluster_launch_template" {
   name_prefix            = "${var.namespace}-ecs-cluster"
   image_id               = data.aws_ami.amazon_linux_2.id
   instance_type          = var.instance_type

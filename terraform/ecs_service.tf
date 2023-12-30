@@ -1,17 +1,3 @@
-# Create a ECS cluster
-
-resource "aws_ecs_cluster" "product_service_cluster" {
-  name = "product_service-cluster"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = {
-    Name = "product_service-cluster"
-  }
-}
-
 # Create a ECS service
 resource "aws_ecs_service" "product_service" {
   name                               = "product_service"
@@ -23,7 +9,7 @@ resource "aws_ecs_service" "product_service" {
   deployment_maximum_percent         = var.ecs_task_deployment_maximum_percent
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.product_service.arn
+    target_group_arn = aws_alb_target_group.tg_product_service.arn
     container_name   = ""
     container_port   = 0
   }
