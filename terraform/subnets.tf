@@ -18,7 +18,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = cidrsubnet(var.vpc_cidr_block, 8, var.availability_zone_count)
     gateway_id = aws_internet_gateway.main.id
   }
 
@@ -64,7 +64,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 # This resource creates private subnets, one per Availability Zone.
 resource "aws_subnet" "private" {
   count             = var.availability_zone_count
-  cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, var.availability_zone_count + count.index)
+  cidr_block        = cidrsubnet(var.vpc_cidr_block, 8, var.availability_zone_count)
   availability_zone = data.aws_availability_zones.available.names[count.index]
   vpc_id            = aws_vpc.main.id
 
@@ -79,7 +79,7 @@ resource "aws_route_table" "private" {
   count  = var.availability_zone_count
 
   route {
-    cidr_block     = "0.0.0.0/0"
+    cidr_block     = cidrsubnet(var.vpc_cidr_block, 8, var.availability_zone_count)
     nat_gateway_id = aws_nat_gateway.nat_gateway[count.index].id
   }
 
