@@ -20,6 +20,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
+      - name: Inject SSH Public Key from Secrets
+        env:
+          SSH_PUBLIC_KEY: ${{ secrets.SSH_KEY_GITHUB_ACTIONS }}
+        run: |
+          echo "$SSH_PUBLIC_KEY" > ./terraform/ssh_key.pub
+          chmod 600 ./terraform/ssh_key.pub
+
       - name: Initialize Terraform
         run: |
           cd terraform
