@@ -31,8 +31,8 @@ jobs:
         run: docker build -t product_service_repo .
 
       - name: Tag Docker image
-        run: docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:latest ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+        run: docker tag cqrs_product_service:latest sasha1doc/cqrs_product_service:latest
 
       - name: Push Docker image to Docker Hub
-        run: docker push ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+        run: docker push sasha1doc/cqrs_product_service:latest
 
