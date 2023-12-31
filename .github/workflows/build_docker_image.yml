@@ -28,7 +28,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build Docker image
-        run: docker build -t product_service_repo .
+        run: docker build -t cqrs_product_service .
 
       - name: Tag Docker image
         run: docker tag cqrs_product_service:latest sasha1doc/cqrs_product_service:latest
