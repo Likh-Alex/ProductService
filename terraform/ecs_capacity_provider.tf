@@ -1,5 +1,5 @@
 resource "aws_ecs_capacity_provider" "main_ecs_capacity_provider" {
-  name = 'main_ecs_capacity_provider'
+  name = "main_ecs_capacity_provider"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.ecs_autoscaling_group.arn

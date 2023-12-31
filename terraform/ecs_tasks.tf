@@ -1,6 +1,6 @@
 resource "aws_ecs_task_definition" "product_service" {
   family             = "product_service"
-  execution_role_arn = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.ecs_task_role.arn
 
   container_definitions = jsonencode([
@@ -19,7 +19,7 @@ resource "aws_ecs_task_definition" "product_service" {
       logConfiguration = {
         logDriver = "awslogs",
         options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.log_group.name,
+          "awslogs-group"         = aws_cloudwatch_log_group.product_service_log_group.name,
           "awslogs-region"        = var.region,
           "awslogs-stream-prefix" = "app"
         }
@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "product_service" {
       logConfiguration = {
         logDriver = "awslogs",
         options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.log_group.name,
+          "awslogs-group"         = aws_cloudwatch_log_group.product_service_log_group.name,
           "awslogs-region"        = var.region,
           "awslogs-stream-prefix" = "app"
         }

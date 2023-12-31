@@ -9,11 +9,6 @@ data "aws_ami" "amazon_linux_2" {
   }
 
   filter {
-    name   = "owner_alias"
-    values = ["amazon"]
-  }
-
-  filter {
     name   = "name"
     values = ["amzn2-ami-ecs-hvm-*-x86_64-ebs"]
   }
@@ -29,7 +24,7 @@ resource "aws_launch_template" "ecs_cluster_launch_template" {
   vpc_security_group_ids = [aws_security_group.ec2.id]
 
   iam_instance_profile {
-    arn = aws_iam_instance_profile.ecs_instance_profile.arn
+    arn = aws_iam_instance_profile.ec2_instance_launch_role.arn
   }
 
 }

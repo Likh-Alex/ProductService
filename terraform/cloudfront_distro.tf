@@ -36,11 +36,17 @@ resource "aws_cloudfront_distribution" "default_cloudfront_distribution" {
       origin_protocol_policy   = "https-only"
       origin_ssl_protocols     = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
+  }
 
-    viewer_certificate {
-      acm_certificate_arn      = aws_acm_certificate.cloudfront_certificate.arn
-      minimum_protocol_version = "TLSv1.1_2016"
-      ssl_support_method       = "sni-only"
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
     }
+  }
+
+  viewer_certificate {
+    acm_certificate_arn      = aws_acm_certificate.cloudfront_certificate.arn
+    minimum_protocol_version = "TLSv1.1_2016"
+    ssl_support_method       = "sni-only"
   }
 }

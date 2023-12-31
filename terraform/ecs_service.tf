@@ -9,7 +9,7 @@ resource "aws_ecs_service" "product_service" {
   deployment_maximum_percent         = var.ecs_task_deployment_maximum_percent
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.tg_product_service.arn
+    target_group_arn = aws_alb_target_group.service_target_group.arn
     container_name   = ""
     container_port   = 0
   }

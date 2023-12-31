@@ -17,7 +17,7 @@ resource "aws_security_group" "ec2" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_groups = [aws_security_group.bastion_host.id]
+    security_groups = [aws_security_group.bastion_host_security_group.id]
   }
 
   egress {
@@ -29,6 +29,6 @@ resource "aws_security_group" "ec2" {
   }
 
   tags = {
-    Name     = "${var.namespace}_EC2_Instance_SecurityGroup_${var.environment}"
+    Name = "${var.namespace}_EC2_Instance_SecurityGroup_${var.environment}"
   }
 }

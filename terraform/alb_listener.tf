@@ -4,7 +4,7 @@ resource "aws_alb_listener" "alb_default_listener_https" {
   port              = "443"
   protocol          = "HTTPS"
 
-  certificate_arn = aws_acm_certificate.alb_certitificate.arn
+  certificate_arn = aws_acm_certificate.alb_certificate.arn
   ssl_policy      = "ELBSecurityPolicy-TLS-1-2-Ext-2018-06"
 
   default_action {
@@ -15,15 +15,15 @@ resource "aws_alb_listener" "alb_default_listener_https" {
       message_body = "No way Jose!"
       status_code  = "403"
     }
-
-    depends_on = [
-      aws_acm_certificate.alb_certificate
-    ]
   }
+
+  depends_on = [
+    aws_acm_certificate.alb_certificate
+  ]
 }
 
 resource "aws_alb_listener_rule" "https_listener_rule" {
-  listener_arn = aws_alb_listener_rule.https_listener_rule.arn
+  listener_arn = aws_alb_listener.alb_default_listener_https.arn
 
   action {
     type             = "forward"

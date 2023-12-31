@@ -24,7 +24,13 @@ variable "environment" {
 variable "domain_name" {
   description = "Domain name of the service (like service.example.com)"
   type        = string
-  default     = "product-service.com"
+  default     = "cqrs-product-service.com"
+}
+
+variable "region" {
+  description = "AWS region"
+  default     = "eu-central-1"
+  type        = string
 }
 
 ########################################################################################################################
@@ -39,7 +45,7 @@ variable "vpc_cidr_block" {
 
 variable "availability_zone_count" {
   description = "Describes how many availability zones are used"
-  default     = 1
+  default     = 2
   type        = number
 }
 
