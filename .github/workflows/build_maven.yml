@@ -2,7 +2,7 @@ name: Build Java with Maven and Upload Artifact to GitHub
 
 on:
   push:
-    branches: [ "mn/simple-terraform" ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
