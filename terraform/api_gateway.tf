@@ -21,7 +21,7 @@ resource "aws_api_gateway_integration" "products_post_integration" {
   resource_id             = aws_api_gateway_resource.products_resource.id
   http_method             = aws_api_gateway_method.products_post.http_method
   type                    = "HTTP_PROXY"
-  uri                     = "http://${aws_alb.main.dns_name}/products"
+  uri                     = "http://${aws_alb.application_load_balancer.dns_name}/products"
   depends_on              = [aws_api_gateway_method.products_post]
   integration_http_method = "POST"
 }
@@ -38,7 +38,7 @@ resource "aws_api_gateway_integration" "products_get_integration" {
   resource_id             = aws_api_gateway_resource.products_resource.id
   http_method             = aws_api_gateway_method.products_get.http_method
   type                    = "HTTP_PROXY"
-  uri                     = "http://${aws_alb.main.dns_name}/products"
+  uri                     = "http://${aws_alb.application_load_balancer.dns_name}/products"
   integration_http_method = "GET"
 }
 
