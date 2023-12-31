@@ -1,7 +1,7 @@
-name: Build and Push Docker Image to ECR
+name: Build and Push Docker Image
 on:
   workflow_run:
-    workflows: [ "Build Java with Maven" ]
+    workflows: [ "Build Java with Maven and Upload Artifact to GitHub" ]
     types:
       - completed
   workflow_dispatch:
@@ -22,24 +22,17 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
-
-      - name: Retrieve AWS ECR login password
-        run: aws ecr get-login-password --region eu-central-1 | docker login --username
-          AWS --password-stdin 154479180857.dkr.ecr.eu-central-1.amazonaws.com
-
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build Docker image
         run: docker build -t product_service_repo .
 
       - name: Tag Docker image
-        run: docker tag product_service_repo:latest
-          154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
+        run: docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:latest ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
 
-      - name: Push Docker image
-        run: docker push
-          154479180857.dkr.ecr.eu-central-1.amazonaws.com/product_service_repo:latest
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+
