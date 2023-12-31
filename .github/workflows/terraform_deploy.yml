@@ -30,8 +30,11 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
+        working-directory: ${{ env.DIR }}
         run: |
           cd terraform
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.SSH_KEY_GITHUB_ACTIONS }}'
           terraform init
 
       - name: Terraform Plan
