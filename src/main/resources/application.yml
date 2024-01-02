@@ -1,0 +1,27 @@
+server:
+  port: 8081
+  address: 0.0.0.0
+
+spring:
+  datasource:
+    url: jdbc:h2:file:~/data/productDB
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+axon:
+  axonserver:
+    servers: ${AXON_SERVER_HOST:axonserver}
+
+webhook:
+  baseUrl: https://webhook.site/
+  endpoint: 44245127-ce8a-44aa-b4cd-184b4c74eb8d
