@@ -36,4 +36,5 @@
     --network axon-network \
     -p 8081:8081 \
     -e AXON_SERVER_HOST=axonserver \
+    -e SPRING_PROFILES_ACTIVE=prod \
     sasha1doc/cqrs_product_service:latest
