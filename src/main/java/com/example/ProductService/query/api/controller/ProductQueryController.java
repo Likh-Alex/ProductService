@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
 public class ProductQueryController {
 
     private QueryGateway queryGateway;
@@ -20,7 +19,7 @@ public class ProductQueryController {
         this.queryGateway = queryGateway;
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public List<ProductRestModel> getAllProducts() {
         GetProductQuery getProductQuery = new GetProductQuery();
         List<ProductRestModel> productRestModels = queryGateway.query(getProductQuery, ResponseTypes.multipleInstancesOf(ProductRestModel.class))

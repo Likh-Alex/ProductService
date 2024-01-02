@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/products")
 public class ProductCommandController {
 
     private CommandGateway commandGateway;
@@ -20,7 +19,7 @@ public class ProductCommandController {
         this.commandGateway = commandGateway;
     }
 
-    @PostMapping
+    @PostMapping("/products")
     public String addProduct(@RequestBody ProductRestModel productRestModel) {
 
         CreateProductCommand createProductCommand =
