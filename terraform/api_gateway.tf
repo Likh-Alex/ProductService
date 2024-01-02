@@ -16,18 +16,6 @@ resource "aws_api_gateway_method" "products_post" {
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_method_settings" "products_post_settings" {
-  rest_api_id = aws_api_gateway_rest_api.product_service_api.id
-  stage_name  = "prod"
-
-  method_path = "*/*"
-  settings {
-    logging_level      = "INFO"
-    metrics_enabled    = true
-    data_trace_enabled = false
-  }
-}
-
 resource "aws_api_gateway_integration" "products_post_integration" {
   rest_api_id             = aws_api_gateway_rest_api.product_service_api.id
   resource_id             = aws_api_gateway_resource.products_resource.id
