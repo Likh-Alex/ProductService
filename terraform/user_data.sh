@@ -1,10 +1,32 @@
 #!/bin/bash
-  yum update -y
-  yum install -y docker unzip
 
-  # Start and enable Docker
+  # Update the system
+  yum update -y
+
+  # Install Docker if it's not already installed
+  if ! command -v docker &> /dev/null
+  then
+      echo "Docker could not be found, installing now..."
+      yum install -y docker
+  else
+      echo "Docker is already installed."
+  fi
+
+  # Install unzip if it's not already installed
+  yum install -y unzip
+
+  # Start and enable Docker service
   systemctl start docker
   systemctl enable docker
+
+  # Verify Docker is running
+  if ! systemctl is-active --quiet docker
+  then
+      echo "Docker is not running, something went wrong with the installation."
+      exit 1
+  else
+      echo "Docker is running."
+  fi
 
   # Create a Docker network
   docker network create product-service-network
