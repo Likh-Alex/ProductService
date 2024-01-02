@@ -20,6 +20,16 @@ resource "aws_security_group" "product_service" {
     cidr_blocks = ["0.0.0.0/0"]  # Or restrict to specific IPs for better security
   }
 
+  # Allow HTTPS traffic to the application port
+  ingress {
+    description = "Allow HTTPS traffic to the application port"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Or restrict to specific IPs for better security
+  }
+
+
   # Allow all outbound traffic
   egress {
     description = "Allow all outbound traffic"
