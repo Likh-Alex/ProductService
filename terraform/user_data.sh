@@ -42,12 +42,12 @@
     axoniq/axonserver:latest
 
   # Pull and run the Product service on the custom network
-  docker container run --network product-service-network \
+  docker run --network product-service-network \
     --name product-service \
     -p 8081:8081 \
     -d sasha1doc/cqrs_product_service:latest
 
-  # Wait for Axon Server to be ready
+#   Wait for Axon Server to be ready
   echo "Waiting for Axon Server to be ready..."
   until $(curl --output /dev/null --silent --head --fail http://localhost:8024); do
     printf 'Waiting for Axon Server to start...\n'
