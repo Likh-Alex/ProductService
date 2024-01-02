@@ -1,10 +1,10 @@
 #!/bin/bash
-  yum update -y
-  yum install -y docker unzip
-
-  # Start and enable Docker
-  systemctl start docker
-  systemctl enable docker
+#  yum update -y
+#  yum install -y docker unzip
+#
+#  # Start and enable Docker
+#  systemctl start docker
+#  systemctl enable docker
 
   # Create a Docker network
   docker network create axon-network
@@ -35,5 +35,5 @@
   docker run -d --name product-service \
     --network axon-network \
     -p 8081:8081 \
-    -e SPRING_PROFILES_ACTIVE=prod \
+    -e AXON_SERVER_HOST=axonserver \
     sasha1doc/cqrs_product_service:latest
