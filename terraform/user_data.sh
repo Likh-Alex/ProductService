@@ -7,17 +7,23 @@
   systemctl enable docker
 
   # Create a Docker network
-  docker network create axon-network
+  docker network create product-service-network
 
   # Pull and run the Axon server on the custom network
   docker run -d --name axonserver \
-    --network axon-network \
+    --network product-service-network \
     -p 8024:8024 \
     -p 8124:8124 \
     -v axondata:/data \
     -v axonevents:/eventdata \
     -v axonconfig:/config \
     axoniq/axonserver:latest
+
+  # Pull and run the Product service on the custom network
+  docker container run --network product-service-network \
+    --name product-service \
+    -p 8081:8081 \
+    -d sasha1doc/cqrs_product_service:latest
 
   # Wait for Axon Server to be ready
   echo "Waiting for Axon Server to be ready..."
@@ -30,11 +36,3 @@
 
   # Initialize Axon Server using REST API
   curl -X POST http://localhost:8024/v1/context/init?context=default
-
-  # Pull and run the Product service on the custom network
-  docker run -d --name product-service \
-    --network axon-network \
-    -p 8081:8081 \
-    -e AXON_SERVER_HOST=axonserver \
-    -e SPRING_PROFILES_ACTIVE=prod \
-    sasha1doc/cqrs_product_service:latest
