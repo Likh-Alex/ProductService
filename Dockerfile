@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM eclipse-temurin:17-jdk-alpine
 LABEL authors="sasha"
 WORKDIR /app
 
