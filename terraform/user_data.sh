@@ -1,10 +1,10 @@
 #!/bin/bash
-#  yum update -y
-#  yum install -y docker unzip
-#
-#  # Start and enable Docker
-#  systemctl start docker
-#  systemctl enable docker
+  yum update -y
+  yum install -y docker unzip
+
+  # Start and enable Docker
+  systemctl start docker
+  systemctl enable docker
 
   # Create a Docker network
   docker network create axon-network
