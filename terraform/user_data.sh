@@ -61,6 +61,7 @@ docker run --network product-service-network \
   --log-driver=awslogs --log-opt awslogs-region=eu-central-1 \
   --log-opt awslogs-group=EC2_Product_Service_Container_Log_Group \
   --log-opt awslogs-create-group=true \
+  SPRING_PROFILES_ACTIVE=prod \
   --name product-service \
   -p 9091:9091 \
   -d sasha1doc/cqrs_product_service:latest

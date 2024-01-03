@@ -1,20 +1,22 @@
 package com.example.ProductService.webhook;
 
+import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class WebhookService {
-
+    public static final String DEV = "dev";
+    @Autowired
+    private Environment env;
     public static final String CLASSPATH_DEFAULT_DATA_DEFAULT_PRODUCTS_JSON = "classpath:defaultData/default_products.json";
     private final RestTemplate restTemplate;
     private final ResourceLoader resourceLoader;
@@ -29,6 +31,9 @@ public class WebhookService {
     }
 
     public void sendPostWebhook() throws IOException {
+        if (isDevProfile()) {
+            return;
+        }
         Resource resource = resourceLoader.getResource(CLASSPATH_DEFAULT_DATA_DEFAULT_PRODUCTS_JSON);
         String webhookUrl = baseUrl + endpoint;
         String jsonPayload;
@@ -40,5 +45,13 @@ public class WebhookService {
         }
 
 
+    }
+
+    private boolean isDevProfile() {
+        if (env == null) {
+            return false;
+        }
+        String[] activeProfiles = env.getActiveProfiles();
+        return activeProfiles.length > 0 && activeProfiles[0].equals(DEV);
     }
 }

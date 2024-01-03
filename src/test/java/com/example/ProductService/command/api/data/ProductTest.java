@@ -13,7 +13,7 @@ class ProductTest {
         BigDecimal price = BigDecimal.valueOf(20.0);
         Integer quantity = 10;
 
-        Product product = new Product();
+        ProductWriteModel product = new ProductWriteModel();
         product.setProductId(productId);
         product.setName(name);
         product.setPrice(price);

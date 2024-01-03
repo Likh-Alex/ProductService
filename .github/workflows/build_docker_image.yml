@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build --build-arg AXON_SERVER_HOST=axonserver --build-arg SPRING_PROFILES_ACTIVE=prod -t cqrs_product_service .
+        run: docker build --build-arg SPRING_PROFILES_ACTIVE=prod -t cqrs_product_service .
 
       - name: Tag Docker image
         run: docker tag cqrs_product_service:latest sasha1doc/cqrs_product_service:latest

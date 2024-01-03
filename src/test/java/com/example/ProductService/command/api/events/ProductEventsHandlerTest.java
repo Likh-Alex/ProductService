@@ -1,7 +1,7 @@
 package com.example.ProductService.command.api.events;
 
-import com.example.ProductService.command.api.data.Product;
-import com.example.ProductService.command.api.data.ProductRepository;
+import com.example.ProductService.command.api.data.ProductWriteModel;
+import com.example.ProductService.command.api.data.ProductWriteModelRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -22,7 +22,7 @@ public class ProductEventsHandlerTest {
         productCreatedEvent.setPrice(BigDecimal.valueOf(10.0));
         productCreatedEvent.setQuantity(5);
 
-        ProductRepository productRepositoryMock = Mockito.mock(ProductRepository.class);
+        ProductWriteModelRepository productRepositoryMock = Mockito.mock(ProductWriteModelRepository.class);
         Mockito.when(productRepositoryMock.save(Mockito.any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         ProductEventsHandler productEventsHandler = new ProductEventsHandler(productRepositoryMock);
@@ -31,9 +31,9 @@ public class ProductEventsHandlerTest {
         productEventsHandler.on(productCreatedEvent);
 
         // Then
-        ArgumentCaptor<Product> argumentCaptor = ArgumentCaptor.forClass(Product.class);
+        ArgumentCaptor<ProductWriteModel> argumentCaptor = ArgumentCaptor.forClass(ProductWriteModel.class);
         Mockito.verify(productRepositoryMock, Mockito.times(1)).save(argumentCaptor.capture());
-        Product savedProduct = argumentCaptor.getValue();
+        ProductWriteModel savedProduct = argumentCaptor.getValue();
 
         assertEquals(productCreatedEvent.getProductId(), savedProduct.getProductId());
         assertEquals(productCreatedEvent.getName(), savedProduct.getName());
@@ -43,8 +43,8 @@ public class ProductEventsHandlerTest {
 
     @Test
     public void testOnWithException() throws Exception {
-        Product product = new Product();
-        ProductRepository productRepositoryMock = Mockito.mock(ProductRepository.class);
+        ProductWriteModel product = new ProductWriteModel();
+        ProductWriteModelRepository productRepositoryMock = Mockito.mock(ProductWriteModelRepository.class);
         Mockito.when(productRepositoryMock.save(Mockito.any())).thenThrow(new RuntimeException());
 
         ProductEventsHandler productEventsHandler = new ProductEventsHandler(productRepositoryMock);

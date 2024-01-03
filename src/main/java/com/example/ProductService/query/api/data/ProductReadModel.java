@@ -1,4 +1,4 @@
-package com.example.ProductService.command.api.data;
+package com.example.ProductService.query.api.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +12,7 @@ import java.math.BigDecimal;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
+public class ProductReadModel {
     @Id
     private String productId;
     private String name;

@@ -1,0 +1,22 @@
+server:
+  port: 9091
+  address: 0.0.0.0
+
+spring:
+  datasource:
+    url: jdbc:mysql://aws-rds-endpoint:3306/myProductionDB
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: admin
+    password: sashk4!admin?
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: validate
+
+axon:
+  axonserver:
+    servers: ${AXON_SERVER_HOST:axonserver}
+
+webhook:
+  baseUrl: https://webhook.site/
+  endpoint: 44245127-ce8a-44aa-b4cd-184b4c74eb8d

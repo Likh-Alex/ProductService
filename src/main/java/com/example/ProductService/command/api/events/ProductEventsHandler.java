@@ -1,7 +1,7 @@
 package com.example.ProductService.command.api.events;
 
-import com.example.ProductService.command.api.data.Product;
-import com.example.ProductService.command.api.data.ProductRepository;
+import com.example.ProductService.command.api.data.ProductWriteModel;
+import com.example.ProductService.command.api.data.ProductWriteModelRepository;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
@@ -12,15 +12,15 @@ import org.springframework.stereotype.Component;
 @ProcessingGroup("product")
 public class ProductEventsHandler {
 
-    private ProductRepository productRepository;
+    private ProductWriteModelRepository productRepository;
 
-    public ProductEventsHandler(ProductRepository productRepository) {
+    public ProductEventsHandler(ProductWriteModelRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @EventHandler
     public void on(ProductCreatedEvent event) throws Exception {
-        Product product = new Product();
+        ProductWriteModel product = new ProductWriteModel();
         BeanUtils.copyProperties(event, product);
         productRepository.save(product);
     }

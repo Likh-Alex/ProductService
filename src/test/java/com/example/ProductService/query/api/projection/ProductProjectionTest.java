@@ -1,11 +1,8 @@
 package com.example.ProductService.query.api.projection;
 
-import static org.mockito.Mockito.when;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.example.ProductService.command.api.data.Product;
-import com.example.ProductService.command.api.data.ProductRepository;
 import com.example.ProductService.command.api.model.ProductRestModel;
+import com.example.ProductService.query.api.data.ProductReadModel;
+import com.example.ProductService.query.api.data.ProductReadModelRepository;
 import com.example.ProductService.query.api.queries.GetProductQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +10,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 class ProductProjectionTest {
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductReadModelRepository productRepository;
 
     private ProductProjection productProjection;
 
@@ -31,9 +31,9 @@ class ProductProjectionTest {
 
     @Test
     void shouldReturnListOfProductRestModels() {
-        List<Product> products = Arrays.asList(
-                new Product("1", "Product1", BigDecimal.valueOf(100.0), 10),
-                new Product("2", "Product2", BigDecimal.valueOf(200.0), 20)
+        List<ProductReadModel> products = Arrays.asList(
+                new ProductReadModel("1", "Product1", BigDecimal.valueOf(100.0), 10),
+                new ProductReadModel("2", "Product2", BigDecimal.valueOf(200.0), 20)
         );
         when(productRepository.findAll()).thenReturn(products);
 
