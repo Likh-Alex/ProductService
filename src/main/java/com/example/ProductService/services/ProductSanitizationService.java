@@ -15,7 +15,7 @@ public class ProductSanitizationService {
      * @param product The ProductRestModel to be sanitized.
      * @return The sanitized ProductRestModel.
      */
-    public ProductRestModel sanitize(ProductRestModel product) {
+    public static ProductRestModel sanitize(ProductRestModel product) {
         if (product != null) {
             String name = product.getName() == null ? "" : product.getName().trim();
             product.setName(name);
