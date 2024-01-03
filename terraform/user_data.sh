@@ -44,7 +44,7 @@
   # Pull and run the Product service on the custom network
   docker run --network product-service-network \
     --name product-service \
-    -p 8081:8081 \
+    -p 80:9091 \
     -d sasha1doc/cqrs_product_service:latest
 
 #   Wait for Axon Server to be ready
