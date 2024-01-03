@@ -13,7 +13,7 @@ import java.util.UUID;
 @RestController
 public class ProductCommandController {
 
-    private CommandGateway commandGateway;
+    private final CommandGateway commandGateway;
 
     public ProductCommandController(CommandGateway commandGateway) {
         this.commandGateway = commandGateway;
@@ -21,7 +21,7 @@ public class ProductCommandController {
 
     @PostMapping("/products")
     public String addProduct(@RequestBody ProductRestModel productRestModel) {
-//        productRestModel = ProductSanitizationService.sanitize(productRestModel);
+        productRestModel = ProductSanitizationService.sanitize(productRestModel);
 
         CreateProductCommand createProductCommand =
                 CreateProductCommand.builder()
