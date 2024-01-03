@@ -2,11 +2,11 @@ resource "aws_iam_role" "ec2_role" {
   name = "ec2_role"
 
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
-        Action    = "sts:AssumeRole",
-        Effect    = "Allow",
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
         Principal = {
           Service = "ec2.amazonaws.com"
         },
@@ -21,7 +21,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 
 resource "aws_instance" "product_service" {
   ami                    = "ami-024f768332f080c5e"
-  instance_type          = "t2.micro"
+  instance_type          = "t2.small"
   key_name               = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids = [aws_security_group.product_service.id]
 
