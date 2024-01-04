@@ -15,6 +15,27 @@ resource "aws_iam_role" "ec2_role" {
   })
 }
 
+resource "aws_iam_policy" "ec2_secrets_manager_policy" {
+  name        = "ec2_secrets_manager_policy"
+  description = "Policy to allow EC2 instances to retrieve secret values from Secrets Manager"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action   = "secretsmanager:GetSecretValue",
+        Effect   = "Allow",
+        Resource = "arn:aws:secretsmanager:eu-central-1:154479180857:secret:AWS_MYSQL_RDS_CREDENTIALS-*"
+      }
+    ],
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_secrets_manager_policy_to_ec2_role" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = aws_iam_policy.ec2_secrets_manager_policy.arn
+}
+
 resource "aws_iam_instance_profile" "ec2_profile" {
   role = aws_iam_role.ec2_role.name
 }

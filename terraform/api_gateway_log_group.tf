@@ -7,7 +7,7 @@ resource "aws_iam_role" "api_gateway_cloudwatch_role" {
   name = "api_gateway_cloudwatch_role"
 
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
         Action    = "sts:AssumeRole",
@@ -24,7 +24,7 @@ resource "aws_iam_policy" "api_gateway_cloudwatch_policy" {
   description = "IAM policy for logging from API Gateway to CloudWatch"
 
   policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
         Action = [

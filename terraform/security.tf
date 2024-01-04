@@ -16,7 +16,15 @@ resource "aws_security_group" "product_service" {
     from_port   = 9091
     to_port     = 9091
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Or restrict to specific IPs for better security
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow inbound MySQL connections
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   # Allow all outbound traffic
