@@ -1,4 +1,5 @@
 resource "aws_db_instance" "product_service_db" {
+  db_name                = "product_service_db"
   engine                 = "mysql"
   engine_version         = "8.0.35"
   allocated_storage      = 20
