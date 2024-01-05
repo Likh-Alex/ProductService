@@ -4,7 +4,7 @@ resource "aws_db_instance" "product_service_db" {
   engine_version         = "8.0.35"
   allocated_storage      = 20
   storage_type           = "gp2"
-  identifier             = "product_service_db"
+  identifier             = "product-service-db"
   username               = "admin"
   password               = "sashk4!admin?"
   publicly_accessible    = true

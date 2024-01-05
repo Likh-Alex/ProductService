@@ -2,7 +2,10 @@
 
 # Update the system
 yum update -y
+##############################################################################################################
 # Install AWS CLI if it's not already installed
+##############################################################################################################
+echo "Installing AWS CLI..."
 if ! command -v aws &> /dev/null
 then
     echo "AWS CLI could not be found, installing now..."
@@ -14,6 +17,7 @@ fi
 
 ##############################################################################################################
 # Install Docker if it's not already installed
+##############################################################################################################
 echo "Installing Docker..."
 if ! command -v docker &> /dev/null
 then
@@ -25,6 +29,7 @@ fi
 
 ##############################################################################################################
 # Install unzip if it's not already installed
+##############################################################################################################
 yum install -y unzip
 
 # Start and enable Docker service
@@ -34,6 +39,8 @@ systemctl enable docker
 
 ##############################################################################################################
 # Verify Docker is running
+##############################################################################################################
+echo "Verifying Docker is running..."
 if ! systemctl is-active --quiet docker
 then
     echo "Docker is not running, something went wrong with the installation."
@@ -43,7 +50,7 @@ else
 fi
 
 ##############################################################################################################
-######################################  Axon server container startup ########################################
+# Axon server container startup
 ##############################################################################################################
 
 # Create a Docker network
@@ -76,7 +83,7 @@ curl -X POST http://localhost:8024/v1/context/init?context=default
 echo "Axon Server is ready."
 
 ##############################################################################################################
-######################################## Product Service Container startup ###################################
+# Product Service Container startup
 ##############################################################################################################
 # Loop until the RDS instance is available and get its endpoint
 echo "Fetching RDS endpoint..."
@@ -102,7 +109,9 @@ while true; do
     fi
 done
 
+##############################################################################################################
 # Fetching secret from AWS Secrets Manager
+##############################################################################################################
 SECRET_NAME="AWS_MYSQL_RDS_CREDENTIALS"
 REGION="eu-central-1"
 SECRET=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --region $REGION | jq -r .SecretString)
@@ -110,10 +119,10 @@ SECRET=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --region $
 # Parse the JSON string into individual components
 AWS_MYSQL_USERNAME=$(echo $SECRET | jq -r .username)
 AWS_MYSQL_PASSWORD=$(echo $SECRET | jq -r .password)
-echo "AWS_MYSQL_USERNAME: $AWS_MYSQL_USERNAME"
-echo "AWS_MYSQL_PASSWORD: $AWS_MYSQL_PASSWORD"
 
+##############################################################################################################
 # Pull and run the Product service on the custom network
+##############################################################################################################
 echo "Pulling and running Product service..."
 docker run --network product-service-network \
   -m 256m \
