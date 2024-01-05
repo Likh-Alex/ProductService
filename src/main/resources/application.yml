@@ -3,8 +3,7 @@ server:
   address: 0.0.0.0
 
 webhook:
-  baseUrl: https://webhook.site/
-  endpoint: 44245127-ce8a-44aa-b4cd-184b4c74eb8d
+  url: https://webhook.site/cff91590-5ce9-47ef-b20f-13a5ab910dac
 
 spring:
   profiles:

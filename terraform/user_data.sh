@@ -121,6 +121,24 @@ AWS_MYSQL_USERNAME=$(echo $SECRET | jq -r .username)
 AWS_MYSQL_PASSWORD=$(echo $SECRET | jq -r .password)
 
 ##############################################################################################################
+# Fetching API Gateway URL
+##############################################################################################################
+echo "Fetching API Gateway URL..."
+API_NAME="ProductServiceAPI"
+STAGE_NAME="prod"
+REGION="eu-central-1"
+
+# Fetch the API ID for the given API name
+API_ID=$(aws apigateway get-rest-apis --region $REGION | jq -r --arg API_NAME "$API_NAME" '.items[] | select(.name==$API_NAME) | .id')
+if [ -z "$API_ID" ]; then
+    echo "API ID for $API_NAME not found"
+    exit 1
+fi
+# Construct the API Gateway URL
+AWS_API_GATEWAY_URL="https://${API_ID}.execute-api.${REGION}.amazonaws.com/${STAGE_NAME}/"
+echo "AWS API Gateway URL: $AWS_API_GATEWAY_URL"
+
+##############################################################################################################
 # Pull and run the Product service on the custom network
 ##############################################################################################################
 echo "Pulling and running Product service..."
@@ -133,6 +151,7 @@ docker run --network product-service-network \
   -e AWS_RDS_MYSQL_HOST=${RDS_ENDPOINT}:${RDS_PORT} \
   -e AWS_RDS_MYSQL_USERNAME=$AWS_MYSQL_USERNAME \
   -e AWS_RDS_MYSQL_PASSWORD=$AWS_MYSQL_PASSWORD \
+  -e AWS_API_GATEWAY_URL=$AWS_API_GATEWAY_URL \
   --name product-service \
   -p 9091:9091 \
   -d sasha1doc/cqrs_product_service:latest

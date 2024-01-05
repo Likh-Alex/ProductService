@@ -2,17 +2,16 @@ package com.example.ProductService.webhook;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 class WebhookServiceTest {

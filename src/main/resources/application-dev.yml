@@ -8,3 +8,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update
+
+aws:
+  api:
+    gateway:
+      url: "https://1q2w3e4r5t.execute-api.us-east-1.amazonaws.com/dev"

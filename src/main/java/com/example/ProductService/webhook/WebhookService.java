@@ -17,41 +17,67 @@ public class WebhookService {
     public static final String DEV = "dev";
     @Autowired
     private Environment env;
-    public static final String CLASSPATH_DEFAULT_DATA_DEFAULT_PRODUCTS_JSON = "classpath:defaultData/default_products.json";
+    public static final String DEFAULT_PRODUCTS_JSON = "classpath:defaultData/default_products_payload.json";
     private final RestTemplate restTemplate;
     private final ResourceLoader resourceLoader;
-    @Value("${webhook.endpoint}")
-    private String endpoint;
-    @Value("${webhook.baseUrl}")
-    private String baseUrl;
+    @Value("${webhook.url}")
+    private String url = "";
+
+    @Value("${aws.api.gateway.url}")
+    private String apiGatewayUrl;
 
     public WebhookService(ResourceLoader resourceLoader, RestTemplate restTemplate) {
         this.resourceLoader = resourceLoader;
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * Sends a POST request to a specified URL with a JSON payload.
+     *
+     * @throws IOException if an I/O error occurs while reading the resource or sending the request
+     */
     public void sendPostWebhook() throws IOException {
-        if (isDevProfile()) {
-            return;
-        }
-        Resource resource = resourceLoader.getResource(CLASSPATH_DEFAULT_DATA_DEFAULT_PRODUCTS_JSON);
-        String webhookUrl = baseUrl + endpoint;
+        Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
         String jsonPayload;
         try {
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-            restTemplate.postForObject(webhookUrl, jsonPayload, String.class);
+            restTemplate.postForObject(url, jsonPayload, String.class);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-
-
     }
 
+    /**
+     * Initializes the webhook data by sending a POST request to a specified URL with a JSON payload.
+     *
+     * @throws IOException if an I/O error occurs while reading the resource or sending the request
+     */
+    public void initWebhookData() throws IOException {
+        if (isDevProfile()) {
+            return;
+        }
+        Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
+        String jsonPayload;
+        try {
+            jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+            jsonPayload.replaceAll("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
+            restTemplate.postForObject(url, jsonPayload, String.class);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    /**
+     * Checks if the current profile is a dev profile.
+     *
+     * @return true if the current profile is a dev profile, false otherwise.
+     */
     private boolean isDevProfile() {
         if (env == null) {
-            return false;
+            return true;
         }
         String[] activeProfiles = env.getActiveProfiles();
         return activeProfiles.length > 0 && activeProfiles[0].equals(DEV);
     }
+
 }

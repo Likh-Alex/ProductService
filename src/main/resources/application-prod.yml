@@ -16,7 +16,3 @@ spring:
 axon:
   axonserver:
     servers: ${AXON_SERVER_HOST:axonserver}
-
-webhook:
-  baseUrl: https://webhook.site/
-  endpoint: 44245127-ce8a-44aa-b4cd-184b4c74eb8d

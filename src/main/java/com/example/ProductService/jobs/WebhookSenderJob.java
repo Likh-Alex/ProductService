@@ -17,6 +17,6 @@ public class WebhookSenderJob {
 
     @Scheduled(fixedRate = 60000) // 1 minute
     public void sendWebhook() throws IOException {
-        webhookService.sendPostWebhook();
+        webhookService.initWebhookData();
     }
 }

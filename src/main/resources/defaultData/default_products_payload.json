@@ -1,0 +1,20 @@
+{
+  "api_gateway_url": "REPLACE_WITH_API_GATEWAY_URL",
+  "products": [
+    {
+      "name": "Apple",
+      "price": 1.20,
+      "quantity": 11
+    },
+    {
+      "name": "Banana",
+      "price": 1.30,
+      "quantity": 22
+    },
+    {
+      "name": "Orange",
+      "price": 1.40,
+      "quantity": 33
+    }
+  ]
+}
