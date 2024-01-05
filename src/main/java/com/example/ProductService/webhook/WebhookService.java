@@ -51,32 +51,30 @@ public class WebhookService {
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             restTemplate.postForObject(url, jsonPayload, String.class);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            logger.error("Failed to send webhook request: {}", exception.getMessage(), exception);
         }
     }
 
     /**
      * Initializes the webhook data by sending a POST request to a specified URL with a JSON payload.
      *
-     * @throws IOException if an I/O error occurs while reading the resource or sending the request
      */
-    public void setWebhook() throws IOException {
+    public void setWebhook() {
         if (isDevProfile()) {
             logger.info("Skipping webhook request for dev profile");
             return;
         }
 
-        Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
-        String jsonPayload;
         try {
+            Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
+            String jsonPayload;
             logger.info("API Gateway URL: " + apiGatewayUrl);
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-            jsonPayload.replace("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
+            jsonPayload = jsonPayload.replace("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
             logger.info("Webhook payload: {}", jsonPayload);
             restTemplate.postForObject(url, jsonPayload, String.class);
         } catch (IOException exception) {
-            logger.error("Failed to send webhook request: {}", exception.getMessage());
-            exception.printStackTrace();
+            logger.error("Failed to send webhook request: {}", exception.getMessage(), exception);
         }
     }
 
