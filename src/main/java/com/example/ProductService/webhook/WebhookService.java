@@ -71,7 +71,7 @@ public class WebhookService {
         try {
             logger.info("API Gateway URL: " + apiGatewayUrl);
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
-            jsonPayload.replaceAll("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
+            jsonPayload.replace("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
             logger.info("Webhook payload: {}", jsonPayload);
             restTemplate.postForObject(url, jsonPayload, String.class);
         } catch (IOException exception) {
