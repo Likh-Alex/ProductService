@@ -16,3 +16,8 @@ spring:
 axon:
   axonserver:
     servers: ${AXON_SERVER_HOST:axonserver}
+
+aws:
+  api:
+    gateway:
+      url: ${AWS_API_GATEWAY_URL}

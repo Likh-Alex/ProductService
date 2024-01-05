@@ -1,5 +1,7 @@
 package com.example.ProductService.webhook;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,16 +17,22 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class WebhookService {
     public static final String DEV = "dev";
+
     @Autowired
     private Environment env;
     public static final String DEFAULT_PRODUCTS_JSON = "classpath:defaultData/default_products_payload.json";
+
     private final RestTemplate restTemplate;
+
     private final ResourceLoader resourceLoader;
+
     @Value("${webhook.url}")
     private String url = "";
 
     @Value("${aws.api.gateway.url}")
     private String apiGatewayUrl;
+
+    private final Logger logger = LoggerFactory.getLogger(WebhookService.class);
 
     public WebhookService(ResourceLoader resourceLoader, RestTemplate restTemplate) {
         this.resourceLoader = resourceLoader;
@@ -52,17 +60,21 @@ public class WebhookService {
      *
      * @throws IOException if an I/O error occurs while reading the resource or sending the request
      */
-    public void initWebhookData() throws IOException {
+    public void setWebhook() throws IOException {
         if (isDevProfile()) {
+            logger.info("Skipping webhook request for dev profile");
             return;
         }
+
         Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
         String jsonPayload;
         try {
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             jsonPayload.replaceAll("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
+            logger.info("Webhook payload: {}", jsonPayload);
             restTemplate.postForObject(url, jsonPayload, String.class);
         } catch (IOException exception) {
+            logger.error("Failed to send webhook request: {}", exception.getMessage());
             exception.printStackTrace();
         }
     }

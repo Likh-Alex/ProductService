@@ -8,3 +8,9 @@ webhook:
 spring:
   profiles:
     active: dev
+
+logging:
+  level:
+    root: WARN
+    org.springframework: INFO
+    com.example.mypackage: DEBUG
