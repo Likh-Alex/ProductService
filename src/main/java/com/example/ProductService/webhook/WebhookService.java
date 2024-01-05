@@ -69,6 +69,7 @@ public class WebhookService {
         Resource resource = resourceLoader.getResource(DEFAULT_PRODUCTS_JSON);
         String jsonPayload;
         try {
+            logger.info("API Gateway URL: " + apiGatewayUrl);
             jsonPayload = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             jsonPayload.replaceAll("REPLACE_WITH_API_GATEWAY_URL", apiGatewayUrl + "/products");
             logger.info("Webhook payload: {}", jsonPayload);
