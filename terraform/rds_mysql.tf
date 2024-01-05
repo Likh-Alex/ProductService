@@ -4,7 +4,7 @@ resource "aws_db_instance" "product_service_db" {
   engine_version         = "8.0.35"
   allocated_storage      = 20
   storage_type           = "gp2"
-  identifier             = "product-service-db"
+  identifier             = "product_service_db"
   username               = "admin"
   password               = "sashk4!admin?"
   publicly_accessible    = true
@@ -14,7 +14,7 @@ resource "aws_db_instance" "product_service_db" {
   vpc_security_group_ids = [aws_security_group.product_service.id]
 
   tags = {
-    Name = "product-service-db"
+    Name = "product_service_db"
   }
 }
 

@@ -110,6 +110,8 @@ SECRET=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --region $
 # Parse the JSON string into individual components
 AWS_MYSQL_USERNAME=$(echo $SECRET | jq -r .username)
 AWS_MYSQL_PASSWORD=$(echo $SECRET | jq -r .password)
+echo "AWS_MYSQL_USERNAME: $AWS_MYSQL_USERNAME"
+echo "AWS_MYSQL_PASSWORD: $AWS_MYSQL_PASSWORD"
 
 # Pull and run the Product service on the custom network
 echo "Pulling and running Product service..."

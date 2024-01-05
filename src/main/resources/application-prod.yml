@@ -4,7 +4,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://${AWS_RDS_MYSQL_HOST}/product-service-db
+    url: jdbc:mysql://${AWS_RDS_MYSQL_HOST}/product_service_db
     driverClassName: com.mysql.cj.jdbc.Driver
     username: ${AWS_RDS_MYSQL_USERNAME}
     password: ${AWS_RDS_MYSQL_PASSWORD}
