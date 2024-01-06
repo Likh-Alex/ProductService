@@ -1,8 +1,8 @@
 package com.example.ProductService.jobs;
 
-import java.io.IOException;
-
 import com.example.ProductService.webhook.WebhookService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -10,13 +10,31 @@ import org.springframework.stereotype.Component;
 public class WebhookSenderJob {
 
     WebhookService webhookService;
+    @Autowired
+    Environment env;
 
     WebhookSenderJob(WebhookService webhookService) {
         this.webhookService = webhookService;
     }
 
     @Scheduled(fixedRate = 60000) // 1 minute
-    public void sendWebhook() throws IOException {
+    public void sendWebhook() {
+        if (isDevProfile()) {
+            return;
+        }
         webhookService.setWebhook();
+    }
+
+    /**
+     * Checks if the current profile is the development profile.
+     *
+     * @return true if the current profile is the development profile, false otherwise
+     */
+    private boolean isDevProfile() {
+        if (env == null) {
+            return true;
+        }
+        String[] activeProfiles = env.getActiveProfiles();
+        return activeProfiles.length > 0 && activeProfiles[0].equals("dev");
     }
 }
