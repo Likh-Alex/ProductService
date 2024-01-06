@@ -15,6 +15,6 @@ resource "aws_iam_policy" "secrets_manager_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "secrets_manager_policy_attachment" {
-  role       = aws_iam_role.ec2_role.name
+  role       = aws_iam_role.product_service_role.name
   policy_arn = aws_iam_policy.secrets_manager_policy.arn
 }

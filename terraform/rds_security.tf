@@ -1,23 +1,3 @@
-resource "aws_db_instance" "product_service_db" {
-  db_name                = "product_service_db"
-  engine                 = "mysql"
-  engine_version         = "8.0.35"
-  allocated_storage      = 20
-  storage_type           = "gp2"
-  identifier             = "product-service-db"
-  username               = var.db_username
-  password               = var.db_password
-  publicly_accessible    = true
-  port                   = 3306
-  skip_final_snapshot    = true
-  instance_class         = "db.t2.micro"
-  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
-
-  tags = {
-    Name = "product_service_db"
-  }
-}
-
 data "aws_iam_policy_document" "rds_describe_policy" {
   statement {
     actions   = ["rds:DescribeDBInstances"]
@@ -32,7 +12,7 @@ resource "aws_iam_policy" "allow_rds_describe" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_rds_describe" {
-  role       = aws_iam_role.ec2_role.name
+  role       = aws_iam_role.product_service_role.name
   policy_arn = aws_iam_policy.allow_rds_describe.arn
 }
 
@@ -41,7 +21,7 @@ resource "aws_iam_policy" "rds_policy" {
   description = "Allow EC2 instances to describe RDS instances"
 
   policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
         Effect   = "Allow",
@@ -53,7 +33,7 @@ resource "aws_iam_policy" "rds_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "rds_policy_attachment" {
-  role       = aws_iam_role.ec2_role.name
+  role       = aws_iam_role.product_service_role.name
   policy_arn = aws_iam_policy.rds_policy.arn
 }
 

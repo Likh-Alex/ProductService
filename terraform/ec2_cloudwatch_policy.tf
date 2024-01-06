@@ -3,7 +3,7 @@ resource "aws_iam_policy" "cloudwatch_policy" {
   description = "A policy that allows writing logs to CloudWatch."
 
   policy = jsonencode({
-    Version   = "2012-10-17",
+    Version = "2012-10-17",
     Statement = [
       {
         Action = [
@@ -20,6 +20,6 @@ resource "aws_iam_policy" "cloudwatch_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_cloudwatch_to_ec2" {
-  role       = aws_iam_role.ec2_role.name
+  role       = aws_iam_role.product_service_role.name
   policy_arn = aws_iam_policy.cloudwatch_policy.arn
 }

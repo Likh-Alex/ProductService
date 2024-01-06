@@ -126,7 +126,6 @@ AWS_MYSQL_PASSWORD=$(echo $SECRET | jq -r .password)
 echo "Fetching API Gateway URL..."
 API_NAME="ProductServiceAPI"
 STAGE_NAME="prod"
-REGION="eu-central-1"
 
 # Fetch the API ID for the given API name
 API_ID=$(aws apigateway get-rest-apis --region $REGION | jq -r --arg API_NAME "$API_NAME" '.items[] | select(.name==$API_NAME) | .id')
