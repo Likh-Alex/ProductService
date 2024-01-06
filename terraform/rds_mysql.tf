@@ -5,13 +5,13 @@ resource "aws_db_instance" "product_service_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   identifier             = "product-service-db"
-  username               = "admin"
-  password               = "sashk4!admin?"
+  username               = var.db_username
+  password               = var.db_password
   publicly_accessible    = true
   port                   = 3306
   skip_final_snapshot    = true
   instance_class         = "db.t2.micro"
-  vpc_security_group_ids = [aws_security_group.product_service.id]
+  vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
 
   tags = {
     Name = "product_service_db"

@@ -1,4 +1,4 @@
-resource "aws_security_group" "product_service" {
+resource "aws_security_group" "ec2_security_group" {
   name        = "product_service_sg"
   description = "Allow SSH and HTTP inbound traffic"
 
@@ -36,3 +36,4 @@ resource "aws_security_group" "product_service" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
