@@ -17,7 +17,7 @@ public class WebhookSenderJob {
         this.webhookService = webhookService;
     }
 
-    @Scheduled(fixedRate = 60000) // 1 minute
+    @Scheduled(fixedRate = 10000) // 10 seconds
     public void sendWebhook() {
         if (isDevProfile()) {
             return;
