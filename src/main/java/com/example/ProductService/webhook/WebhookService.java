@@ -25,7 +25,7 @@ public class WebhookService {
      */
     public void setWebhook() {
         ProductHelper productHelper = new ProductHelper();
-        String jsonPayload = WebhookPayloadHelper.buildWebhookPayload(productHelper.buildRandomProduct(), apiGatewayUrl + "/products");
+        String jsonPayload = WebhookPayloadHelper.buildWebhookPayload(productHelper.buildRandomProduct(), apiGatewayUrl + "products");
         restTemplate.postForObject(url, jsonPayload, String.class);
     }
 
