@@ -1,5 +1,5 @@
 resource "aws_security_group" "ec2_security_group" {
-  name        = "product_service_sg"
+  name        = var.security_group_name
   description = "Allow SSH and HTTP inbound traffic"
 
   # Allow SSH
@@ -11,10 +11,11 @@ resource "aws_security_group" "ec2_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # Allow product service container traffic
   ingress {
     description = "Allow traffic to the product service container"
-    from_port   = 9091
-    to_port     = 9091
+    from_port   = var.product_service_port
+    to_port     = var.product_service_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

@@ -3,18 +3,18 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 }
 
 resource "aws_instance" "product_service" {
-  ami                    = "ami-024f768332f080c5e"
-  instance_type          = "t2.small"
+  ami                    = var.ec2_ami_id
+  instance_type          = var.ec2_instance_type
   key_name               = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
 
   iam_instance_profile = aws_iam_instance_profile.ec2_profile.id
 
   tags = {
-    Name = "product_service_instance"
+    Name = var.ec2_instance_name
   }
 
-  user_data = file("${path.module}/user_data.sh")
+  user_data = file("${path.module}/ec2_user_data.sh")
 
 }
 

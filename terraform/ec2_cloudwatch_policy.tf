@@ -1,6 +1,5 @@
 resource "aws_iam_policy" "cloudwatch_policy" {
-  name        = "CloudWatchLogsPolicy"
-  description = "A policy that allows writing logs to CloudWatch."
+  name = var.cloudwatch_policy_name
 
   policy = jsonencode({
     Version = "2012-10-17",

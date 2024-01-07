@@ -1,8 +1,16 @@
 terraform {
-  backend "s3" {
-    bucket = "product-service-terraform-state"
-    key    = "terraform/state/terraform.tfstate"
-    region = "eu-central-1"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.31.0"
+    }
+  }
+  backend "remote" {
+    organization = "product_service_demo"
+
+    workspaces {
+      name = "ProductService"
+    }
   }
 }
 

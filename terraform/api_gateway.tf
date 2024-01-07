@@ -1,6 +1,5 @@
 resource "aws_api_gateway_rest_api" "product_service_api" {
-  name        = "ProductServiceAPI"
-  description = "API for Product Service"
+  name = var.api_name
 }
 
 resource "aws_api_gateway_resource" "products_resource" {
@@ -11,8 +10,8 @@ resource "aws_api_gateway_resource" "products_resource" {
 
 resource "aws_api_gateway_method" "products_post" {
   rest_api_id   = aws_api_gateway_rest_api.product_service_api.id
-  http_method   = "POST"
   resource_id   = aws_api_gateway_resource.products_resource.id
+  http_method   = "POST"
   authorization = "NONE"
 }
 
@@ -69,24 +68,13 @@ resource "aws_api_gateway_integration_response" "products_get_integration_respon
 }
 
 resource "aws_api_gateway_stage" "api_stage" {
-  stage_name    = "prod"
+  stage_name    = var.api_stage_name
   rest_api_id   = aws_api_gateway_rest_api.product_service_api.id
   deployment_id = aws_api_gateway_deployment.api_deployment.id
 
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_gateway_log_group.arn
-    format = jsonencode({
-      "requestId"      = "$context.requestId",
-      "ip"             = "$context.identity.sourceIp",
-      "caller"         = "$context.identity.caller",
-      "user"           = "$context.identity.user",
-      "requestTime"    = "$context.requestTime",
-      "httpMethod"     = "$context.httpMethod",
-      "resourcePath"   = "$context.resourcePath",
-      "status"         = "$context.status",
-      "protocol"       = "$context.protocol",
-      "responseLength" = "$context.responseLength"
-    })
+    format          = jsonencode(var.access_logs_settings_format)
   }
 }
 
