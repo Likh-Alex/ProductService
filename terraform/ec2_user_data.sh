@@ -87,7 +87,7 @@ echo "Axon Server is ready."
 ##############################################################################################################
 # Loop until the RDS instance is available and get its endpoint
 echo "Fetching RDS endpoint..."
-RDS_INSTANCE_IDENTIFIER="product-service-db"
+RDS_INSTANCE_IDENTIFIER="product-service"
 while true; do
     RDS_ENDPOINT=$(aws rds describe-db-instances \
                    --db-instance-identifier $RDS_INSTANCE_IDENTIFIER \
