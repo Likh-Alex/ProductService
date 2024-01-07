@@ -132,14 +132,6 @@ variable "rds_sg_name" {
 }
 
 # Credentials variables
-variable "aws_rds_db_username" {
-  description = "Database administrator username"
-  type        = string
-  sensitive   = true
-}
+variable "AWS_RDS_DB_USERNAME" {}
 
-variable "aws_rds_db_password" {
-  description = "Database administrator password"
-  type        = string
-  sensitive   = true
-}
+variable "AWS_RDS_DB_PASSWORD" {}

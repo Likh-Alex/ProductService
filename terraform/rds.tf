@@ -11,8 +11,8 @@ resource "aws_db_instance" "product_service_db" {
   instance_class         = var.db_instance_class
   vpc_security_group_ids = [aws_security_group.ec2_security_group.id]
 
-  username = var.aws_rds_db_username
-  password = var.aws_rds_db_password
+  username = var.AWS_RDS_DB_USERNAME
+  password = var.AWS_RDS_DB_PASSWORD
 
   tags = {
     Name = var.db_name
