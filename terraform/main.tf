@@ -9,7 +9,7 @@ terraform {
     organization = "product_service_demo"
 
     workspaces {
-      name = "ProductService"
+      name = "ProductServiceCli"
     }
   }
 }
