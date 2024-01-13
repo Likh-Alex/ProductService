@@ -9,6 +9,11 @@ variable "api_stage_name" {
   type    = string
 }
 
+variable "product_resource_name" {
+  type = string
+  default = "products"
+}
+
 variable "access_logs_settings_format" {
   default = {
     "requestId"      = "$context.requestId",
